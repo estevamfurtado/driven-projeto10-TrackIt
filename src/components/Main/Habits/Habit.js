@@ -34,6 +34,8 @@ const EditTitleInput = styled.input`
     &::placeholder {
         color: #DBDBDB;
     }
+
+    padding: 0 10px;
 `
 
 const DaysContainer = styled.div`
@@ -56,6 +58,7 @@ const SelectDay = styled.div`
         background-color: #CFCFCF;
         color: white;
     }
+
 `
 
 const SaveContainer = styled.div`
@@ -77,6 +80,18 @@ const SaveButton = styled.button`
     color: white;
     font-size: 16px;
     cursor: pointer;
+`
+
+const DeleteButton = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    &:hover {
+        background-color: #EEE;
+    }
 `
 
 const CancelButton = styled.button`
@@ -103,7 +118,9 @@ export default function Habit({id, name, days, saved}) {
     <Container>
         <TitleContainer>
             <h1>{name}</h1>
-            <ion-icon name="trash-outline"></ion-icon>
+            <DeleteButton>
+                <ion-icon name="trash-outline"></ion-icon>
+            </DeleteButton>
         </TitleContainer>
         <EditTitleInput placeholder={"nome do hábito"}></EditTitleInput>
         <DaysContainer>
