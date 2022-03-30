@@ -38,7 +38,6 @@ export default function Habits({ }) {
 
 	// Variáveis
 
-	let navigate = useNavigate();
 	const [habits, setHabits] = useState([]);
 	const [newHabit, setNewHabit] = useState({name: "", days: []});
 	const [editingNewHabit, setEditingNewHabit] = useState(false);

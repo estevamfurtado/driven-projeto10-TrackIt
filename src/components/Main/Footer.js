@@ -7,6 +7,7 @@ import {
   Link,
 } from "react-router-dom";
 import styled from "styled-components";
+import UserContext from "../../contexts/UserContext";
 
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
@@ -65,6 +66,17 @@ const Wrapper = styled.div`
 
 
 export default function Footer({ }) {
+
+  const { user, dayHabits, getDayHabits } = useContext(UserContext);
+
+	useEffect(() => {
+		if (user) {
+			getDayHabits();
+		}
+	}, [user]);
+
+  const completion = (dayHabits.filter(h => h.done).length/dayHabits.length) * 100;
+
   return (
     <Banner>
       <Wrapper>
@@ -78,7 +90,7 @@ export default function Footer({ }) {
           <div className="todayCircle">
             <Link to="/hoje">
               <CircularProgressbar
-                value={75}
+                value={completion}
                 text="Hoje"
                 background
                 backgroundPadding={6}
