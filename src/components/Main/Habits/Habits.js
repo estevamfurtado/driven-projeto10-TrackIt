@@ -18,6 +18,21 @@ const HabitsList = styled.div`
     gap: 10px;
 `
 
+const PlusButton = styled.button`
+	width: 40px;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #52B6FF;
+	cursor: pointer;
+	color: white;
+	border-radius: 5px;
+	border: none;
+	font-size: 20px;
+`
+
+
 const habits = [
 	{
 		id: 1,
@@ -66,7 +81,7 @@ export default function Habits({}) {
         <Main>
             <Top>
                 <h1>Meus hábitos</h1>
-                <button>+</button>
+                <PlusButton>+</PlusButton>
             </Top>
 
             <HabitsList>
