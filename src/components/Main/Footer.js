@@ -77,6 +77,8 @@ export default function Footer({ }) {
 
   const completion = (dayHabits.filter(h => h.done).length/dayHabits.length) * 100;
 
+  document.title = `TrackIt [${dayHabits.filter(h => h.done).length}/${dayHabits.length}]`;
+
   return (
     <Banner>
       <Wrapper>
