@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import axios from 'axios';
 import { ThreeDots } from 'react-loader-spinner';
+import UserContext from '../../contexts/UserContext';
 
 import Enter from './Enter';
 
@@ -69,7 +70,7 @@ export default function LogIn({ }) {
     const [isDisabled, setIsDisabled] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const {user, setUser} = useContext(UserContext);
 
     let navigate = useNavigate();
 
@@ -94,7 +95,7 @@ export default function LogIn({ }) {
         setIsDisabled(true);
         const promise = axios.post(link, obj);
         promise.then(a => {
-            console.log(a);
+            setUser(a.data);
             navigate('/habitos');
         }).catch(e => {
             alert('Verifique login e senha.');

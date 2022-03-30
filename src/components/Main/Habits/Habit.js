@@ -126,8 +126,6 @@ export default function Habit({id, name, days, saved}) {
         <DaysContainer>
             {daysOfTheWeek.map((day, index) => {
                 let classNameVal = ""
-
-                console.log(days.indexOf(index));
                 if (days.indexOf(index) > 0) {
                     classNameVal = "selected";
                 }

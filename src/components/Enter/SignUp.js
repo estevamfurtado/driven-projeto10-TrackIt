@@ -118,7 +118,6 @@ export default function SignUp({ }) {
     setIsDisabled(true);
     const promise = axios.post(link, obj);
     promise.then(a => {
-      console.log(a.data);
       navigate('/');
     }).catch(e => {
       alert('Não foi possível cadastrar o usuário.');
