@@ -21,6 +21,12 @@ const Input = styled.input`
     height: 45px;
     border: 1px solid #D4D4D4;
     border-radius: 5px;
+    font-size: 20px;
+    color: #666;
+
+    &::placeholder {
+        color: #DBDBDB;
+    }
 ` 
 const Button = styled.button`
     width: 100%;
@@ -32,8 +38,10 @@ const Button = styled.button`
     cursor: pointer;
 ` 
 const Clickable = styled.div`
-    font-size: 16px;
-    color: #52B6FF;
+    a {
+        font-size: 16px;
+        color: #52B6FF;
+    }
 ` 
 
 
@@ -42,10 +50,10 @@ export default function LogIn({}) {
     return (
         <Enter>
             <InputsWrapper>
-                <Input></Input>
-                <Input></Input>
+                <Input placeholder="email"></Input>
+                <Input placeholder="senha"></Input>
                 <Link to={"/habitos"}><Button>Entrar</Button></Link>
             </InputsWrapper>
-            <Link to={"/cadastro"} ><Clickable>Não tem uma conta? Cadastre-se!</Clickable></Link>
+            <Clickable><Link to={"/cadastro"} >Não tem uma conta? Cadastre-se!</Link></Clickable>
         </Enter>)
 }

@@ -43,6 +43,13 @@ const Check = styled.div`
     justify-content: center;
 
     cursor: pointer;
+    color: white;
+
+    font-size: 40px;
+
+    &.checked {
+        background-color: #8FC549;
+    }
 `
 
 
@@ -60,7 +67,9 @@ export default function Habit({id, name, days}) {
                 <p>Recorde: <span className={"checked"}>5 dias</span></p>
             </div>
         </div>
-        <Check></Check>
+        <Check>
+            <ion-icon name="checkmark-outline"></ion-icon>
+        </Check>
     </Container>
     )
 }
