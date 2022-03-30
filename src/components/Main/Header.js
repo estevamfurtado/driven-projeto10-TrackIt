@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
+import UserContext from '../../contexts/UserContext';
 
 const Banner = styled.header`
     height: 70px;
@@ -31,11 +32,19 @@ const Image = styled.img`
 `
 
 export default function Header({}) {
+
+    const { user } = useContext(UserContext);
+    let imageUrl = "https://yt3.ggpht.com/ytc/AKedOLQ6Ief26j8b1lgSA1OpXSCzJBlnlEEsWtQAfdwB=s900-c-k-c0x00ffffff-no-rj";
+
+    if (user) {
+        imageUrl = user.image;
+	}
+
     return (
     <Banner>
         <Wrapper>
             <Logo>TrackIt</Logo>
-            <Image src="https://media-exp1.licdn.com/dms/image/C4E03AQF6yExoKJcN6Q/profile-displayphoto-shrink_200_200/0/1598619452638?e=1652918400&v=beta&t=YSq5sqQJrgk3kvF1Jm9G2vII6-0KwmzYsvk6aC7Zt84" />
+            <Image src={imageUrl} />
         </Wrapper>
     </Banner>
     )

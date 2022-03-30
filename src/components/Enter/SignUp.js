@@ -104,8 +104,6 @@ export default function SignUp({ }) {
   }
   
 
-
-
   const sendToAPI = () => {
     let link = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up`;
     let obj = {

@@ -1,6 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
+import UserContext from '../../../contexts/UserContext';
+import axios from 'axios';
+import { ThreeDots } from 'react-loader-spinner';
 
 const Container = styled.div`
     background-color: white;
@@ -36,6 +39,12 @@ const EditTitleInput = styled.input`
     }
 
     padding: 0 10px;
+
+    &:disabled,
+    &[disabled]{
+        background-color: #F2F2F2;
+        color: #AFAFAF;
+    }
 `
 
 const DaysContainer = styled.div`
@@ -80,6 +89,11 @@ const SaveButton = styled.button`
     color: white;
     font-size: 16px;
     cursor: pointer;
+
+    &:disabled,
+    &[disabled]{
+        opacity: 70%;
+    }
 `
 
 const DeleteButton = styled.div`
@@ -106,38 +120,148 @@ const CancelButton = styled.button`
     color: #52B6FF;
     font-size: 16px;
     cursor: pointer;
+    
+    &:disabled,
+    &[disabled]{
+        opacity: 70%;
+    }
 `
 
 
 
 const daysOfTheWeek = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
-export default function Habit({id, name, days, saved}) {
+export default function Habit({ id, name, days, editing, hideEditingHook, deleteHabitHook }) {
 
-    return (
-    <Container>
+    const [editingName, setEditingName] = useState(name);
+    const [editingDays, setEditingDays] = useState([...days]);
+    const [isSendingData, setIsSendingData] = useState(false);
+    
+    const { user } = useContext(UserContext);
+
+
+
+    function toggleDay(canEdit, day) {
+        if (canEdit) {
+            const newDays = [...editingDays];
+            if (newDays.indexOf(day) > -1) {
+                newDays.splice(newDays.indexOf(day), 1);
+            } else {
+                newDays.push(day);
+            }
+            setEditingDays(newDays);
+        }
+    }
+
+    function saveNewHabitAPI() {
+        if (user && editing) {
+
+            setIsSendingData(true);
+
+            let url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits";
+            const config = {
+				headers: { Authorization: `Bearer ${user.token}` }
+			};
+            const obj = {
+                name: editingName,
+                days: editingDays,
+            }
+			
+			const promise = axios.post(url, obj, config);
+			promise.then(a => {
+                clearEditing();
+                hideEditingHook(a.data);
+
+                setIsSendingData(false);
+			});
+			promise.catch(() => {
+                setIsSendingData(false);
+                alert("Não foi possível salvar o novo hábito!");
+            })
+        }
+    }
+
+    function cancelNewHabit() {
+        hideEditingHook(null);
+    }
+
+    function clearEditing() {
+        setEditingName("");
+        setEditingDays([]);
+    }
+
+    function deleteButtonHandler() {
+        if (window.confirm("Você tem certeza?")) {
+            deleteHabitHook(id);
+        }
+    }
+
+
+    // Small Components
+
+    const titleContainer = (
         <TitleContainer>
-            <h1>{name}</h1>
-            <DeleteButton>
+            <h1>{editingName}</h1>
+            <DeleteButton onClick={()=>{deleteButtonHandler()}}>
                 <ion-icon name="trash-outline"></ion-icon>
             </DeleteButton>
         </TitleContainer>
-        <EditTitleInput placeholder={"nome do hábito"}></EditTitleInput>
+    )
+
+    const nameInput = (
+        <EditTitleInput
+            disabled={isSendingData}
+            placeholder={"nome do hábito"}
+            value={editingName}
+            onChange={e => { setEditingName(e.target.value) }}
+        >
+        </EditTitleInput>
+    )
+
+    const daysComponent = (
         <DaysContainer>
             {daysOfTheWeek.map((day, index) => {
                 let classNameVal = ""
-                if (days.indexOf(index) > 0) {
+                if (editingDays.indexOf(index) > -1) {
                     classNameVal = "selected";
                 }
-
-                return (<SelectDay key={index} className={classNameVal}>{day}</SelectDay>)
+                return (
+                    <SelectDay
+                        key={index} className={classNameVal}
+                        onClick={() => {
+                            toggleDay((editing && !isSendingData), index);
+                        }}
+                    >
+                        {day}
+                    </SelectDay>)
             })}
         </DaysContainer>
-        <SaveContainer>
-            <CancelButton>Cancelar</CancelButton>
-            <SaveButton>Salvar</SaveButton>
-        </SaveContainer>
+    )
 
-    </Container>
+    const saveContainer = (
+        <SaveContainer>
+            <CancelButton disabled={isSendingData} onClick={() => {cancelNewHabit()}}>Cancelar</CancelButton>
+            <SaveButton disabled={isSendingData} onClick={() => {saveNewHabitAPI()}}>
+                {isSendingData
+                ? <ThreeDots color="#fff" height={50} width={50} />
+                : "Salvar"}
+            </SaveButton>
+        </SaveContainer>
+    )
+
+    return (
+        <Container>
+            {editing
+                ? (<>
+                    {nameInput}
+                    {daysComponent}
+                    {saveContainer}
+                </>)
+                : (<>
+                    {titleContainer}
+                    {daysComponent}
+                </>)
+            }
+        </Container>
     )
 }
