@@ -31,19 +31,53 @@ const Image = styled.img`
     border-radius: 50px;
 `
 
+const LeftContainer = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 10px;
+`
+
+const LogOutButton = styled.button`
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+`
+
 export default function Header({}) {
 
-    const { user } = useContext(UserContext);
+    const [tappedLogo, setTappedLogo] = useState(false);
+    const { user, setUser, clearLocalStorage } = useContext(UserContext);
     let imageUrl = "https://yt3.ggpht.com/ytc/AKedOLQ6Ief26j8b1lgSA1OpXSCzJBlnlEEsWtQAfdwB=s900-c-k-c0x00ffffff-no-rj";
+
+    const navigate = useNavigate();
 
     if (user) {
         imageUrl = user.image;
 	}
 
+    function clickLogoHandler() {
+        setTappedLogo(!tappedLogo);
+    }
+
+    function logOutHandler() {
+        if (window.confirm("Você quer sair?")) {
+            clearLocalStorage()
+            setUser(null);
+            navigate("/");
+        } else {
+            setTappedLogo(false);
+        }
+    }
+
     return (
     <Banner>
         <Wrapper>
-            <Logo>TrackIt</Logo>
+            <LeftContainer>
+                {tappedLogo ? <LogOutButton onClick={()=>{logOutHandler()}}>Sair</LogOutButton> : <></>}
+                <Logo onClick={()=>{clickLogoHandler()}}>TrackIt</Logo>
+            </LeftContainer>
             <Image src={imageUrl} />
         </Wrapper>
     </Banner>

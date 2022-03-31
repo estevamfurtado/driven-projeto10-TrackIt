@@ -41,9 +41,13 @@ export default function App() {
         promise.catch(e => console.log(e));
     }
 
+    function clearLocalStorage() {
+        window.localStorage.removeItem('trackit_user');
+    }
+
     return (
         <UserContext.Provider value={{
-            user, setUser, dayHabits, setDayHabits, getDayHabits
+            user, setUser, dayHabits, setDayHabits, getDayHabits, clearLocalStorage
         }}>
             <BrowserRouter>
                 <Routes>
