@@ -22,7 +22,16 @@ const Wrapper = styled.div`
     padding: 0px 18px;
 `
 const Logo = styled.div`
+    
     color: white;
+    border-radius: 5px;
+    padding: 10px;
+
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba(0,0,0,0.2);
+    }
 `
 
 const Image = styled.img`
@@ -43,6 +52,7 @@ const LogOutButton = styled.button`
     border-radius: 5px;
     color: white;
     border: none;
+    cursor: pointer;
 `
 
 export default function Header({}) {
