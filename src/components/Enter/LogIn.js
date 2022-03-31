@@ -72,8 +72,12 @@ export default function LogIn({ }) {
     const [password, setPassword] = useState("");
     const {user, setUser} = useContext(UserContext);
 
-    let navigate = useNavigate();
 
+    let navigate = useNavigate();
+    
+    if (user) {
+        navigate('/habitos');
+    }
 
     function validateAndSendToAPI() {
         if (validateInputs()) {
@@ -95,7 +99,9 @@ export default function LogIn({ }) {
         setIsDisabled(true);
         const promise = axios.post(link, obj);
         promise.then(a => {
-            setUser(a.data);
+            const newUser = {...a.data}
+            setUser(newUser);
+            localStorage.setItem('trackit_user', JSON.stringify(newUser));
             navigate('/habitos');
         }).catch(e => {
             alert('Verifique login e senha.');
@@ -109,6 +115,7 @@ export default function LogIn({ }) {
         setStateFunction(event.target.value);
     }
 
+    
 
     return (
         <Enter>

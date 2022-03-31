@@ -19,6 +19,15 @@ export default function App() {
     const [user, setUser] = useState(null);
     const [dayHabits, setDayHabits] = useState([]);
 
+    useEffect(()=>{
+        if (!user) {
+            const download = JSON.parse(localStorage.getItem('trackit_user'));
+            if (download) {
+                setUser(download);
+            }
+        }
+    }, [])
+
     function getDayHabits() {
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today";
         const config = {

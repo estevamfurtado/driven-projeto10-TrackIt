@@ -67,10 +67,11 @@ const Wrapper = styled.div`
 
 export default function Footer({ }) {
 
-  const { user, dayHabits, getDayHabits } = useContext(UserContext);
+  const { user, setUser, dayHabits, getDayHabits } = useContext(UserContext);
 
 	useEffect(() => {
-		if (user) {
+    
+    if (user) {
 			getDayHabits();
 		}
 	}, [user]);
