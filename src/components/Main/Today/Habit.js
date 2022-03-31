@@ -60,7 +60,7 @@ const Check = styled.div`
 const daysOfTheWeek = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
 
-export default function Habit({ id, name, done, currentSequence, highestSequence, toggleCheckHook }) {
+export default function Habit({ id, name, done, currentSequence, highestSequence, toggleCheckHook, waitingAnswer }) {
 
     function checkButtonHandler() {
         toggleCheckHook(id);
@@ -79,7 +79,9 @@ export default function Habit({ id, name, done, currentSequence, highestSequence
                 </div>
             </div>
             <Check className={done ? "checked" : ""} onClick={() => { checkButtonHandler() }}>
-                <ion-icon name="checkmark-outline"></ion-icon>
+                {(waitingAnswer)
+                ? <ThreeDots color="#fff" height={50} width={50} />
+                : <ion-icon name="checkmark-outline"></ion-icon>}
             </Check>
         </Container>
     )

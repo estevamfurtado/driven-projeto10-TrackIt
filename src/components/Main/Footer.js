@@ -75,7 +75,7 @@ export default function Footer({ }) {
 		}
 	}, [user]);
 
-  const completion = (dayHabits.filter(h => h.done).length/dayHabits.length) * 100;
+  const completion = dayHabits.length > 0 ? ((dayHabits.filter(h => h.done).length/dayHabits.length) * 100) : 0;
 
   document.title = `TrackIt [${dayHabits.filter(h => h.done).length}/${dayHabits.length}]`;
 

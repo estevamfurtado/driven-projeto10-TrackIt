@@ -13,6 +13,7 @@ import History from './Main/History/History';
 import "../styles/reset.css"
 import "../styles/styles.css"
 
+
 export default function App() {
 
     const [user, setUser] = useState(null);

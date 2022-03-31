@@ -5,6 +5,7 @@ import UserContext from '../../../contexts/UserContext';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
+
 import Main from '../Main';
 import Habit from './Habit';
 
@@ -26,7 +27,10 @@ const HabitsList = styled.div`
 
 export default function Today({ }) {
 
+	require('dayjs/locale/pt-br');
+
 	const { user, dayHabits, getDayHabits } = useContext(UserContext);
+	const [waitingAnswer, setWaitingAnswer] = useState(false);
 
 	useEffect(() => {
 		if (user) {
@@ -37,6 +41,9 @@ export default function Today({ }) {
 	const completion = Math.ceil((dayHabits.filter(h => h.done).length/dayHabits.length) * 100);
 
 	function toggleCheckHook(id) {
+
+		setWaitingAnswer(true);
+
 		let habit = null;
 		dayHabits.forEach(h => {
 			if (h.id === id) {
@@ -52,8 +59,12 @@ export default function Today({ }) {
 			const promise = axios.post(url, {}, config);
 			promise.then(a => {
 				getDayHabits();
+				setWaitingAnswer(false);
 			});
-			promise.catch(e => console.log(e));
+			promise.catch(e => {
+				console.log(e)
+				setWaitingAnswer(false);
+			});
 		}
 	}
 
@@ -77,6 +88,7 @@ export default function Today({ }) {
 						currentSequence={habit.currentSequence}
 						highestSequence={habit.highestSequence}
 						toggleCheckHook={toggleCheckHook}
+						waitingAnswer={waitingAnswer}
 					/>)
 				})}
 			</HabitsList>

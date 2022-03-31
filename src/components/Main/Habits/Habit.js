@@ -133,11 +133,15 @@ const daysOfTheWeek = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
 export default function Habit({ id, name, days, editing, hideEditingHook, deleteHabitHook }) {
 
+    if (editing) {
+        console.log(name, days);
+    }
+
     const [editingName, setEditingName] = useState(name);
     const [editingDays, setEditingDays] = useState([...days]);
     const [isSendingData, setIsSendingData] = useState(false);
     
-    const { user } = useContext(UserContext);
+    const { user, getDayHabits } = useContext(UserContext);
 
 
 
@@ -170,9 +174,11 @@ export default function Habit({ id, name, days, editing, hideEditingHook, delete
 			const promise = axios.post(url, obj, config);
 			promise.then(a => {
                 clearEditing();
-                hideEditingHook(a.data);
+                hideEditingHook(a.data, true);
 
                 setIsSendingData(false);
+
+                getDayHabits();
 			});
 			promise.catch(() => {
                 setIsSendingData(false);
@@ -182,7 +188,7 @@ export default function Habit({ id, name, days, editing, hideEditingHook, delete
     }
 
     function cancelNewHabit() {
-        hideEditingHook(null);
+        hideEditingHook({name: editingName, days: editingDays}, false);
     }
 
     function clearEditing() {

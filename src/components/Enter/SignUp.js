@@ -132,7 +132,7 @@ export default function SignUp({ }) {
     <Enter>
       <InputsWrapper>
         <Input placeholder="email" disabled={isDisabled} value={email} onChange={e => { onChangeSetState(e, setEmail) }}></Input>
-        <Input placeholder="senha" disabled={isDisabled} value={password} onChange={e => { onChangeSetState(e, setPassword) }}></Input>
+        <Input type="password" placeholder="senha" disabled={isDisabled} value={password} onChange={e => { onChangeSetState(e, setPassword) }}></Input>
         <Input placeholder="nome" disabled={isDisabled} value={name} onChange={e => { onChangeSetState(e, setName) }}></Input>
         <Input placeholder="foto" disabled={isDisabled} value={image} onChange={e => { onChangeSetState(e, setImage) }}></Input>
         <Button onClick={validateAndSendToAPI} disabled={isDisabled}>

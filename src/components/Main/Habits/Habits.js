@@ -5,6 +5,7 @@ import Header from '../Header';
 import UserContext from '../../../contexts/UserContext';
 import axios from 'axios';
 
+
 import Main from '../Main';
 import Habit from './Habit';
 
@@ -42,7 +43,7 @@ export default function Habits({ }) {
 	const [newHabit, setNewHabit] = useState({name: "", days: []});
 	const [editingNewHabit, setEditingNewHabit] = useState(false);
 	
-	const { user } = useContext(UserContext);
+	const { user, getDayHabits } = useContext(UserContext);
 
 	useEffect(() => {
 		if (user) {
@@ -61,13 +62,14 @@ export default function Habits({ }) {
 
 	function showNewHabit() {
 		if (editingNewHabit === false) {
-			setNewHabit({name: "", days: []});
 			setEditingNewHabit(true);
 		}
 	}
 
-	function hideEditingHook(newHabit) {
-		if (newHabit) {
+	function hideEditingHook(editedNewHabit, append) {
+		
+		setNewHabit({...editedNewHabit})		
+		if (append) {
 			const newHabits = [...habits];
 			newHabits.push(newHabit);
 			setHabits(newHabits);
@@ -95,6 +97,8 @@ export default function Habits({ }) {
 				const newHabits = [...habits];
 				newHabits.splice(index, 1);
 				setHabits(newHabits);
+
+				getDayHabits();
 			});
 			promise.catch(e => {
 				// console.log(e);

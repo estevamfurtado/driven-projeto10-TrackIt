@@ -114,7 +114,7 @@ export default function LogIn({ }) {
         <Enter>
             <InputsWrapper>
                 <Input placeholder="email" disabled={isDisabled} value={email} onChange={e => { onChangeSetState(e, setEmail) }}></Input>
-                <Input placeholder="senha" disabled={isDisabled} value={password} onChange={e => { onChangeSetState(e, setPassword) }}></Input>
+                <Input type="password" placeholder="senha" disabled={isDisabled} value={password} onChange={e => { onChangeSetState(e, setPassword) }}></Input>
                 <Button onClick={validateAndSendToAPI} disabled={isDisabled}>
                     {isDisabled
                         ? <ThreeDots color="#fff" height={50} width={50} />
